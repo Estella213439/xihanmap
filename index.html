@@ -2,7 +2,6 @@
 <html>
   <head>  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="/Users/chenjiahua/Desktop/Xihan/openlayers-workshop-en/data/marker.png" />
 
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -45,6 +44,10 @@
         /* make the line height smaller */
           line-height: 1.4;
           }
+
+          .leaflet-control.leaflet-timeline-control{
+            width: 1000px;
+          }
       /* .marker-cluster {
 	      background-clip: padding-box;
 	      border-radius: 20px;
@@ -67,8 +70,11 @@
   </head>
   <body>
     <div id="mapid"></div>
-    <script src="/data/test.js"></script>
+    <script src="/data/domain.js"></script>
+    <script src="/data/domain1.js"></script>
     <script src="/data/timeline.js"></script>
     <script src="/main.js"></script>
+    
+    
   </body>
 </html>
