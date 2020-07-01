@@ -98,14 +98,14 @@ function popup(feature){
 
 //DOMAIN POLYGON
 
-L.geoJSON(polygon2,{
+var poly = L.geoJSON(polygon1,{
   onEachFeature: function(feature, layer) {
     layer.bindTooltip("<style='color: #84b819'>" +  feature.properties.Name_en +' '+ feature.properties.Name +"</style='color: #84b819'>")
     },
   style: function(feature) {
-    switch (feature.properties.Type) {
-        case 'County': return {color: "#ff0000"};
-        case 'Domain':   return {color: "#0000ff"};
+    switch (feature.properties.type) {
+        case 'County': return {color: "#9544ED"};
+        case 'Domain':   return {color: "#E78520"};
     }
   }}).addTo(mymap);
 
@@ -182,28 +182,6 @@ controlSearch_domain.on('search:locationfound', function(e) {
 // }).addTo(mymap);
 
 
-// TOGGOLE LAYERS
-
-var baseLayers = {
-  "Satellite": satellite,
-  "Streets": streets,
-  "Topography":topography
-};
-var overlayMaps = {
-  // "All Points": cluster,
-  // "timeline":pointTimeline,
-  "All Points(Search)":cluster,
-  "Domain(Timeline)":domainPoint,
-  "Origin(Timeline)":originPoint,
-  "Tomb(Timeline)":tombPoint
-};
-
-L.control.layers(baseLayers, overlayMaps).addTo(mymap);
-
-
-
-
-
 
 var myIconDomain = L.icon({
   iconUrl: "/data/china.svg",
@@ -225,3 +203,56 @@ var myIconDomain = L.icon({
 // //   iconAnchor: [9, 21],
 // //   popupAnchor: [0, -14]
 // // });
+
+//POPULATION
+
+function style (feature) {
+  return {
+  radius: getPop(parseInt(feature.properties.start_ori)),
+  fillColor: "#ff7800",
+  color: "#000",
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 0.8
+  }
+};
+
+function getPop(d) {
+  console.log(d)
+  return d > 200 ? 10 :
+         d > 100 ? 5 :
+                  3;
+}
+
+var population = L.geoJSON(markers1, {
+  pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng, {style: style});
+  },
+  onEachFeature: function(feature, layer) 
+  { 
+    var z = document.createElement('p');
+    z.innerHTML =  feature.properties.start_ori
+    layer.bindTooltip(z);
+    }
+}).addTo(mymap);
+
+
+// TOGGOLE LAYERS
+
+var baseLayers = {
+  "Satellite": satellite,
+  "Streets": streets,
+  "Topography":topography
+};
+var overlayMaps = {
+  // "All Points": cluster,
+  // "timeline":pointTimeline,
+  "All Points(Search)":cluster,
+  "Domain(Timeline)":domainPoint,
+  "Origin(Timeline)":originPoint,
+  "Tomb(Timeline)":tombPoint,
+  "Kingdoms":poly,
+  "Population": population
+};
+
+L.control.layers(baseLayers, overlayMaps).addTo(mymap);
